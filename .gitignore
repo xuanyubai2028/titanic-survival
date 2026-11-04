@@ -179,3 +179,16 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+# Data: do not upload to GitHub
+src/data/
+
+# Local environments and system files
+.venv/
+venv/
+.DS_Store
+.Rhistory
+.RData
+.Rproj.user/
+
+# Generated prediction files
+outputs/
