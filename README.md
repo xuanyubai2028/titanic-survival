@@ -17,7 +17,7 @@ git clone https://github.com/xuanyubai2028/titanic-survival.git
 cd titanic-survival
 ```
 
-Run all commands below from this repository's root directory.
+Run all commands below from the repository root.
 
 ## 2. Download the Data
 
@@ -39,14 +39,14 @@ src/data/train.csv
 src/data/test.csv
 ```
 
-The dataset is excluded from GitHub through `.gitignore`. `gender_submission.csv` is not required.
+The dataset is excluded from GitHub through `.gitignore`. The data folder must be created locally after cloning. `gender_submission.csv` is not required.
 
 ## 3. Run the Python Implementation
 
 Build the image:
 
 ```bash
-docker build -t titanic-python ./src/python
+docker build -t titanic-python ./src/Python
 ```
 
 Run the container:
@@ -60,7 +60,7 @@ docker run --rm -v "$(pwd)/src/data:/app/data:ro" titanic-python
 Build the image:
 
 ```bash
-docker build -t titanic-r ./src/r
+docker build -t titanic-r ./src/R
 ```
 
 Run the container:
@@ -69,7 +69,9 @@ Run the container:
 docker run --rm -v "$(pwd)/src/data:/app/data:ro" titanic-r
 ```
 
-These commands use macOS/Linux shell syntax. The data folder is mounted read-only at `/app/data` inside each container.
+These commands use macOS/Linux shell syntax. Folder names are case-sensitive: use `Python` and `R` exactly as shown.
+
+The data folder is mounted read-only at `/app/data` inside each container.
 
 The first build downloads the required image and dependencies and may take several minutes. Rebuild the corresponding image after changing its code or dependency files.
 
@@ -84,7 +86,7 @@ Both implementations:
 - Fit a logistic regression model.
 - Report training accuracy and print predictions for all test passengers.
 
-Python standardizes features and uses scikit-learn logistic regression with its default regularization. R uses an unregularized logistic regression through `glm()`.
+Python standardizes features and uses scikit-learn logistic regression with its default regularization. R uses an unregularized logistic regression through `glm()`. The R script also converts empty text fields to missing values before reporting missing-value counts.
 
 ## 6. Expected Terminal Output
 
@@ -112,21 +114,15 @@ titanic-survival/
 ├── README.md
 ├── .gitignore
 └── src/
-    ├── data/                 # Local CSV files; ignored by Git
-    ├── python/
+    ├── data/                 # Created locally; CSV files are ignored by Git
+    ├── Python/
     │   ├── Dockerfile
     │   ├── requirements.txt
     │   └── main.py
-    └── r/
+    └── R/
         ├── Dockerfile
         ├── install_packages.R
         └── main.R
 ```
 
 Python dependencies are version-pinned in `requirements.txt`. The R implementation uses the built-in `stats` and `utils` packages.
-
-## 8. Troubleshooting
-
-- **Cannot connect to the Docker daemon:** start Docker and wait for it to finish starting.
-- **Data file not found:** check that both CSV files are extracted into `src/data/` and that you run the commands from the repository root.
-- **Changes do not appear in the output:** rebuild the image before running it again.
